@@ -96,6 +96,15 @@ function procesarComoDirectorio(ruta, validate) {
   });
 }
 
+// Leer el archivo 
+const leerArchivo = (filePath) => {
+  return fs.promises.readFile(filePath, 'utf8')
+    .then((contenido) => contenido)
+    .catch((error) => {
+      throw new Error(`Error al leer archivo: ${error.message}`);
+    });
+};
+
 // Asegurar que el archivo es markdown 
 const verificarArchivoMD = (filePath) => {
   const archivoMD = path.extname(filePath);
@@ -105,15 +114,6 @@ const verificarArchivoMD = (filePath) => {
   } else {
     return false;
   }
-};
-
-// Leer el archivo 
-const leerArchivo = (filePath) => {
-  return fs.promises.readFile(filePath, 'utf8')
-    .then((contenido) => contenido)
-    .catch((error) => {
-      throw new Error(`Error al leer archivo: ${error.message}`);
-    });
 };
 
 // Encontrar los links dentro del documento 
@@ -151,5 +151,6 @@ const searchLinks = (content, pathAbsolute, validate = false) => {
   return promiseChain.then(() => linksEnDoc);
 };
 
-module.exports = { searchLinks, leerArchivo, verificarArchivoMD, rutaExiste, pathFile, procesarRuta, procesarComoDirectorio, procesarComoArchivo };
+
+module.exports = { searchLinks, leerArchivo, verificarArchivoMD, rutaExiste, pathFile, procesarRuta, procesarComoDirectorio, procesarComoArchivo,  };
 

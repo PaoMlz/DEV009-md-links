@@ -1,0 +1,41 @@
+/* Estilos ficticios para un archivo de prueba */
+
+/* Estilo para el encabezado */
+h1 {
+    color: #333;
+    font-size: 2em;
+    text-align: center;
+  }
+  
+  /* Estilo para un párrafo */
+  p {
+    color: #666;
+    font-size: 1.2em;
+  }
+  
+  /* Estilo para un enlace */
+  a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Estilo para una lista no ordenada */
+  ul {
+    list-style-type: circle;
+  }
+  
+  li {
+    margin: 10px 0;
+  }
+  
+  /* Estilo para una imagen */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
