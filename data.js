@@ -118,13 +118,13 @@ const verificarArchivoMD = (filePath) => {
 
 // Encontrar los links dentro del documento 
 const searchLinks = (content, pathAbsolute, validate = false) => {
-  const regex = /\[([^[]+)\]\(([^()]+)\)/g;
+  const regex = /\[([^\]]+)\]\((https?:\/\/[^\s]+)\)/g;
   const linksEnDoc = [];
 
   let match;
   let promiseChain = Promise.resolve();
 
-  while ((match = regex.exec(content)) !== null) {
+  while ((match=regex.exec(content))  !== null){
     const linkObj = {
       href: match[2],
       text: match[1],
