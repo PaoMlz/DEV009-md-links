@@ -34,33 +34,8 @@ function procesarRuta(path, validate) {
     });
   });
 }
-
-function procesarComoArchivo(path, validate) {
-  return new Promise((resolve, reject) => {
-    if (!verificarArchivoMD(path)) {
-      reject('El archivo no es Markdown');
-      return;
-    }
-
-    leerArchivo(path)
-      .then((contenido) => {
-        searchLinks(contenido, path, validate)
-          .then((links) => {
-            const resultados = {
-              rutaExiste: true,
-              verificarArchivoMD: true,
-              contenido,
-              linksEncontrados: links,
-            };
-            resolve(resultados);
-          })
-          .catch((error) => reject(error.message || 'Ocurrió un error desconocido'));
-      })
-      .catch((error) => reject(error.message || 'Ocurrió un error desconocido'));
-  });
-}
-
-function procesarComoDirectorio(ruta, validate) {
+//ListarArchivos MD
+function listarArchivosMD(ruta) {
   return new Promise((resolve, reject) => {
     fs.readdir(ruta, (err, dirContents) => {
       if (err) {
@@ -76,24 +51,70 @@ function procesarComoDirectorio(ruta, validate) {
           }
         });
 
-        const promesas = archivosMD.map((archivo) => {
-          const archivoPath = path.join(ruta, archivo);
-          return leerArchivo(archivoPath)
-            .then((contenido) => searchLinks(contenido, archivoPath, validate));
-        });
-
-        Promise.all(promesas)
-          .then((links) => {
-            resolve({
-              rutaExiste: true,
-              verificarArchivoMD: archivosMD.length > 0,
-              linksEncontrados: links.flat(),
-            });
-          })
-          .catch((error) => reject(`Error al procesar como directorio: ${error.message}`));
+        resolve(archivosMD);
       }
     });
   });
+}
+//procesar archivo md
+function procesarComoArchivo(path, validate) {
+  return new Promise((resolve, reject) => {
+    if (!verificarArchivoMD(path)) {
+      reject('El archivo no es Markdown');
+      return;
+    }
+
+    leerArchivo(path)
+      .then((contenido) => {
+        searchLinks(contenido, path, validate)
+          .then((links) => {
+         //   const resultados = {
+           //   rutaExiste: true,
+             // verificarArchivoMD: true,
+              //contenido,
+              //linksEncontrados: links,
+            //};
+            resolve(links);
+          })
+          .catch((error) => reject(error.message || 'Ocurrió un error desconocido'));
+      })
+      .catch((error) => reject(error.message || 'Ocurrió un error desconocido'));
+  });
+}
+
+//Directorio
+function procesarComoDirectorio(ruta, validate) {
+  const listarArchivosRecursivo = (ruta) => {
+    let archivos = [];
+    const contenido = fs.readdirSync(ruta);
+
+    contenido.forEach((elemento) => {
+      const elementoPath = path.join(ruta, elemento);
+      const stat = fs.statSync(elementoPath);
+
+      if (stat.isDirectory()) {
+        archivos = archivos.concat(listarArchivosRecursivo(elementoPath));
+      } else if (stat.isFile() && verificarArchivoMD(elementoPath)) {
+        archivos.push(elementoPath);
+      }
+    });
+
+    return archivos;
+  };
+//recursividad 
+  const archivosMD = listarArchivosRecursivo(ruta);
+  const promesas = archivosMD.map((archivo) => {
+    return leerArchivo(archivo)
+      .then((contenido) => searchLinks(contenido, archivo, validate));
+  });
+
+  return Promise.all(promesas)
+    .then((links) => {
+      return  links.flat()
+    })
+    .catch((error) => {
+      throw new Error(`Error al procesar como directorio: ${error.message}`);
+    });
 }
 
 // Leer el archivo 
@@ -150,7 +171,30 @@ const searchLinks = (content, pathAbsolute, validate = false) => {
 
   return promiseChain.then(() => linksEnDoc);
 };
+ //validar
+const validarLinks = (resultados) => {
+  const promesasValidacion = resultados.map(link => {
+    return axios.head(link.href)
+      .then(response => {
+        link.status = response.status;
+        link.statusText = response.statusText;
+        link.ok = response.status >= 200 && response.status <= 299;
+        return link;
+      })
+      .catch(error => {
+        link.status = 'Error';
+        link.statusText = error.message;
+        link.ok = false;
+        return link;
+      });
+  });
 
+  return Promise.all(promesasValidacion)
+    .then(validatedLinks => {
+      resultados = validatedLinks;
+      return resultados;
+    });
+};
 
-module.exports = { searchLinks, leerArchivo, verificarArchivoMD, rutaExiste, pathFile, procesarRuta, procesarComoDirectorio, procesarComoArchivo,  };
+module.exports = { searchLinks, leerArchivo, verificarArchivoMD, rutaExiste, pathFile, procesarRuta, procesarComoDirectorio, procesarComoArchivo, validarLinks, listarArchivosMD };
 
