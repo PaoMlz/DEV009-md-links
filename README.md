@@ -17,10 +17,9 @@
 
 Para comenzar con este proyecto, es importante tener claros algunos conceptos fundamentales, comenzando por el Markdown.
  
+Markdown es una especie de "lenguaje de formato" que facilita la estructuración y presentación de texto de forma clara y sencilla. Fue diseñado con la premisa de ser fácil de escribir y entender sin requerir herramientas adicionales. Aunque fue concebido por John Gruber y Aaron Swartz, su uso se ha vuelto muy común, ganando popularidad entre desarrolladores, escritores y usuarios de Internet en general.
 
-El Markdown es como un "lenguaje de estilos" que facilita la organización y presentación de texto de manera clara y sencilla. Fue diseñado para ser fácil de escribir y entender sin necesidad de procesamiento adicional. Aunque fue concebido por John Gruber y Aaron Swartz, su uso se ha popularizado enormemente, convirtiéndose en la preferencia de desarrolladores, escritores y usuarios de la web en general.
-
-Mediante el uso de símbolos como asteriscos (*) o almohadillas (#), este lenguaje permite aplicar estilos como negritas, listas o encabezados. Esto resulta en textos bien organizados y legibles, especialmente en plataformas como GitHub, foros y blogs, que son compatibles con Markdown.
+A través de la utilización de símbolos como asteriscos (*) o almohadillas (#), este lenguaje permite aplicar estilos como énfasis, listas o encabezados. Esto resulta en textos bien estructurados y legibles, especialmente en plataformas como GitHub, foros y blogs, que ofrecen soporte nativo para Markdown
 
 Debido a su simplicidad y flexibilidad, el Markdown se ha convertido en una herramienta esencial para la creación y edición de documentos, especialmente en entornos colaborativos y en el desarrollo de proyectos de software.
 
