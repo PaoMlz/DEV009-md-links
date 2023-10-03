@@ -25,7 +25,7 @@ Debido a su simplicidad y flexibilidad, el Markdown se ha convertido en una herr
 
 A continuación, abordamos Node.js.
 
-Node.js, también conocido como Node, es una plataforma que habilita la ejecución de JavaScript en el servidor. A diferencia de JavaScript en el navegador, que se enfoca en interactuar con los usuarios en las páginas web, Node se utiliza para llevar a cabo tareas en el lado del servidor, como trabajar con archivos, conectarse a bases de datos y construir aplicaciones web completas. Esto lo convierte en una herramienta indispensable para el desarrollo de aplicaciones web sólidas y escalables.
+Node.js, o simplemente Node, es una plataforma que permite ejecutar código JavaScript en el servidor. A diferencia de JavaScript en el navegador, que se centra en interactuar con los usuarios en las páginas web, Node se utiliza para llevar a cabo operaciones en el lado del servidor, como manipular archivos, acceder a bases de datos y construir aplicaciones web completas. Esta característica lo convierte en una herramienta esencial para el desarrollo de aplicaciones web robustas y escalables.
 
 ## 2. Resumen del proyecto
 
